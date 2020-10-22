@@ -24,6 +24,9 @@ class Header extends Component {
 */
 const title = 'Welcome to SoftScape\'s SMS'
 const fac = 'Not a Student?'
+const bp1 = 'About'
+const bp2 = 'Terms&Conditions'
+const bp3 = 'Help'
 
 const SearchBar = ({keyword,setKeyword}) => {
   const BarStyling = {width:"20rem",background:"#F2F1F9", border:"none", padding:"0.5rem"};
@@ -56,6 +59,7 @@ class App extends Component {
         </a>
           </h2>
         </header>
+        
         </div>
     ); 
   }
