@@ -28,17 +28,22 @@ h2 {
   font-size: 10px;
   color: whitesmoke;
 }
+b1 {
+  color: #282c34;
+}
 .App-header {
   background-color: #282c34;
-  min-height: 75vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  margin: 0px;
+  min-height: 96vh;
+  width: 100%;
 }
-.App-body {
+.App-footer {
   background-color: whitesmoke;
   min-height: 3vh;
 }

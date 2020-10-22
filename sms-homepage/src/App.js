@@ -60,6 +60,11 @@ class App extends Component {
           </h2>
         </header>
         
+        <footer className="App-footer">
+          <b1>
+            {bp1}
+          </b1>
+        </footer>
         </div>
     ); 
   }
