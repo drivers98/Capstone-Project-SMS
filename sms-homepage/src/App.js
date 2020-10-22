@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import logo from './logo.svg';
 import './App.css';
 
 /*
@@ -23,15 +22,42 @@ class Header extends Component {
   }
 }
 */
+const title = 'Welcome to SoftScape\'s SMS'
+const fac = 'Not a Student?'
+
+const SearchBar = ({keyword,setKeyword}) => {
+  const BarStyling = {width:"20rem",background:"#F2F1F9", border:"none", padding:"0.5rem"};
+  return (
+    <input 
+     style={BarStyling}
+     key="random1"
+     value={keyword}
+     placeholder={"Search"}
+     onChange={(e) => setKeyword(e.target.value)}
+    />
+  );
+}
 
 class App extends Component {
   render() {
     return (
       <div>
+      <header className="App-header">
         <img src="/images/KentLogo.png" alt=""/>
-        <h2>Welcome, to SoftScapes SMS</h2>
-      </div>
-    );
+        <h1>{title}</h1>
+        <SearchBar />
+        <h2>{fac} <a
+          className="App-link"
+          href="https://login.kent.edu/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+         Click Here
+        </a>
+          </h2>
+        </header>
+        </div>
+    ); 
   }
 }
 
