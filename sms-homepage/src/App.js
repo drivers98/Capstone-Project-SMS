@@ -25,7 +25,7 @@ class Header extends Component {
 const title = 'Welcome to SoftScape\'s SMS'
 const fac = 'Not a Student?'
 const bp1 = 'About'
-const bp2 = 'Terms&Conditions'
+const bp2 = 'Terms & Conditions'
 const bp3 = 'Help'
 
 const SearchBar = ({keyword,setKeyword}) => {
@@ -59,10 +59,12 @@ class App extends Component {
         </a>
           </h2>
         </header>
-        
+
         <footer className="App-footer">
           <b1>
-            {bp1}
+           <t3>{bp1}</t3>  
+            <t2>{bp2}</t2>
+           <t1>{bp3}</t1>
           </b1>
         </footer>
         </div>

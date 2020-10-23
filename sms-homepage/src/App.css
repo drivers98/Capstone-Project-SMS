@@ -20,6 +20,7 @@ img {
 .SearchBar {
   pointer-events: none;
 }
+
 h1 {
   font-size: calc(10px + 2vmin);
   color: whitesmoke;
@@ -30,8 +31,35 @@ h2 {
 }
 b1 {
   color: #282c34;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(8px + 2vmin);
 }
+t1 {
+  color: #282c34;
+  font-size: calc(8px + 2vmin);
+  position: absolute;
+  bottom: 8px;
+  right: 16px;
+  font-size: 18px;
+}
+
+t2 {
+  color: #282c34;
+  font-size: calc(8px + 2vmin);
+  position: absolute;
+  bottom: 8px;
+  right: 65px;
+  font-size: 18px;
+}
+
+t3 {
+  color: #282c34;
+  font-size: calc(8px + 2vmin);
+  position: absolute;
+  bottom: 8px;
+  right: 240px;
+  font-size: 18px;
+}
+
 .App-header {
   background-color: #282c34;
   display: flex;
