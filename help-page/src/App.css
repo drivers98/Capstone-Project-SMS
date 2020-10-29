@@ -6,10 +6,6 @@ img {
   height: 125px;
   pointer-events: none;
 }
-.SearchBar {
-  pointer-events: none;
-}
-
 h1 {
   font-size: calc(20px + 2vmin);
   color: whitesmoke;
@@ -74,19 +70,7 @@ wb1 {
   width: 100%;
 }
 
-.App-link {
-  color: #61dafb;
-}
 .App-footer {
   background-color: whitesmoke;
   min-height: 3vh;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
