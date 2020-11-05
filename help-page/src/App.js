@@ -16,14 +16,9 @@ const para3 = "courses. No login is required for viewing the different syllabus.
 const para4 = "of the Kent State Computer Science department. "
 const bo1 = "Navigate to the homepage where there is a search bar. There are many different options"
 const bo2 = "for what the user can type in so they can view a syllabus. In the search bar enter, a course"
-
-const l1 = ""
-const l2 = ""
-const l3 = ""
-const l4 = "Kent State and to allow the faculty members that teach or manage those courses to"
-const l5 = "have the ability to create, delete, or update a syllabus. We decided to take the SMS task"
-const l6 = "in order to fulfil our 2020 capstone project course requirement."
-
+const bo3 = "name, number, or faculty member that teaches the course. After, hit the enter button on the "
+const bo4 = "keyboard. This action will cause the website to redirect to the results page and on the results"
+const bo5 = "page, click the desired course syllabus to be viewed."
 
 class App extends Component {
   render() {
@@ -43,13 +38,24 @@ class App extends Component {
 <tb2>{hu}</tb2>
 <wb1>{bo1}</wb1>
 <wb1>{bo2}</wb1>
+<wb1>{bo3}</wb1>
+<wb1>{bo4}</wb1>
+<wb1>{bo5}</wb1>
 <tb1>{he2}</tb1>
-<wb1>{para1}</wb1>
-<wb1>{l2}</wb1>
-<wb1>{l3}</wb1>
-<wb1>{l4}</wb1>
-<wb1>{l5}</wb1>
-<wb1>{l6}</wb1>
+<tb2>{gs}</tb2>
+<wb1>The purpose of SoftScape’s Syllabus management system (SMS) is to provide an easy </wb1>
+<wb1>way for Faculty to gain access to their syllabus, or syllabi for the courses they teach. Faculty </wb1>
+<wb1>members have the option to create, delete, update, and view a syllabus but the course </wb1>
+<wb1>coordinators must ok the changes before they will be visible to everyone.</wb1>
+<tb2>{hu}</tb2>
+<wb1>Navigate to the homepage/Search a Syllabus and there under the search bar, there is a </wb1>
+<wb1>“Click Here” hyperlink next to the “Not a student” text. Click on the “Click Here” hyperlink and </wb1>
+<wb1>then you will be redirected to login your flashline credentials. Upon successful login, you will be </wb1>
+<wb1>redirected to the faculty view and from there you can manage different syabulli and all actions</wb1>
+<wb1>done in the faculty view will need to be approved by an administrator before any changes will be</wb1>
+<wb1>made viewable.</wb1>
+<wb1>-------------------------------</wb1>
+<wb1>Email administrator for additional help.</wb1>
 </body>
         <footer className="App-footer">
           <b1>

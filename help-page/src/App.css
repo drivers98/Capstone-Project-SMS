@@ -17,8 +17,7 @@ b1 {
 t1 {
   color: #282c34;
   font-size: calc(8px + 2vmin);
-  vertical-align: bottom;
-  bottom: 8px;
+  position: absolute;
   right: 16px;
   font-size: 18px;
 }
@@ -26,8 +25,7 @@ t1 {
 t2 {
   color: #282c34;
   font-size: calc(8px + 2vmin);
-  vertical-align: bottom;
-  bottom: 8px;
+  position: absolute;
   right: 65px;
   font-size: 18px;
 }
@@ -35,8 +33,7 @@ t2 {
 t3 {
   color: #282c34;
   font-size: calc(8px + 2vmin);
-  vertical-align: bottom;
-  bottom: 8px;
+  position: absolute;
   right: 240px;
   font-size: 18px;
 }
