@@ -2,21 +2,27 @@ import React, { Component } from "react";
 import './App.css';
 
 
-const title = 'About SoftScape'
+const title = 'SoftScape’s SMS Help'
 const bp1 = 'Search a Syllabus'
 const bp2 = 'Terms & Conditions'
 const bp3 = 'Help'
-const teamMem1 = "Dawson Rivers"
-const teamMem2 = "Joe Contumelio"
-const teamMem3 = "Travis Cottrell"
-const teamMem4 = "Jason Schnippel"
-const teamMem5 = "Kane McHale"
-const line1 = "The purpose of this website was to replace the outdated syllabus management"
-const line2 = "system (SMS) of the Kent State Computer Science Department. We were placed with"
-const line3 = "the task to allow students to view the syllabus of different Computer Science courses at"
-const line4 = "Kent State and to allow the faculty members that teach or manage those courses to"
-const line5 = "have the ability to create, delete, or update a syllabus. We decided to take the SMS task"
-const line6 = "in order to fulfil our 2020 capstone project course requirement."
+const he1 = "Students"
+const he2 = "Faculty"
+const gs = "Getting Started"
+const hu = "How to Use"
+const para1 = "The purpose of SoftScape’s Syllabus management system (SMS) is to provide an easy"
+const para2 = "way for students to gain access to the most up to date syllabus for all the Kent State CS"
+const para3 = "courses. No login is required for viewing the different syllabus. This website only contains syllabi"
+const para4 = "of the Kent State Computer Science department. "
+const bo1 = "Navigate to the homepage where there is a search bar. There are many different options"
+const bo2 = "for what the user can type in so they can view a syllabus. In the search bar enter, a course"
+
+const l1 = ""
+const l2 = ""
+const l3 = ""
+const l4 = "Kent State and to allow the faculty members that teach or manage those courses to"
+const l5 = "have the ability to create, delete, or update a syllabus. We decided to take the SMS task"
+const l6 = "in order to fulfil our 2020 capstone project course requirement."
 
 
 class App extends Component {
@@ -28,19 +34,22 @@ class App extends Component {
         <h1>{title}</h1>
         </header>
 <body className="App-body">
-<tb1>Team Members:</tb1>
-<wb1>{teamMem1}</wb1>
-<wb1>{teamMem2}</wb1>
-<wb1>{teamMem3}</wb1>
-<wb1>{teamMem4}</wb1>
-<wb1>{teamMem5}</wb1>
-<tb1>Purpose: </tb1>
-<wb1>{line1}</wb1>
-<wb1>{line2}</wb1>
-<wb1>{line3}</wb1>
-<wb1>{line4}</wb1>
-<wb1>{line5}</wb1>
-<wb1>{line6}</wb1>
+<tb1>{he1}</tb1>
+<tb2>{gs}</tb2>
+<wb1>{para1}</wb1>
+<wb1>{para2}</wb1>
+<wb1>{para3}</wb1>
+<wb1>{para4}</wb1>
+<tb2>{hu}</tb2>
+<wb1>{bo1}</wb1>
+<wb1>{bo2}</wb1>
+<tb1>{he2}</tb1>
+<wb1>{para1}</wb1>
+<wb1>{l2}</wb1>
+<wb1>{l3}</wb1>
+<wb1>{l4}</wb1>
+<wb1>{l5}</wb1>
+<wb1>{l6}</wb1>
 </body>
         <footer className="App-footer">
           <b1>
