@@ -1,5 +1,7 @@
-import React, { Component } from "react";
+import React, { useState, Component } from "react";
 import './App.css';
+import {BrowserRouter as Router, Route, Switch, Link, Redirect } from "react-router-dom";
+//import router from "../../sms-backend/routes/DBcommands";
 
 /*
  function Body() {
@@ -21,15 +23,20 @@ class Header extends Component {
     );
   }
 }
-*/
+
 const title = 'Welcome to SoftScape\'s SMS'
 const fac = 'Not a Student?'
 const bp1 = 'About'
 const bp2 = 'Terms & Conditions'
 const bp3 = 'Help'
 
-const SearchBar = ({keyword,setKeyword}) => {
+
+
+const SearchBar = () => {
   const BarStyling = {width:"20rem",background:"#F2F1F9", border:"none", padding:"0.5rem"};
+
+  const [keyword, setKeyword] = useState("");
+
   return (
     <input 
      style={BarStyling}
@@ -40,7 +47,32 @@ const SearchBar = ({keyword,setKeyword}) => {
     />
   );
 }
+*/
+// pages
+import SearchPage from "./pages/search";
+import AboutPage from "./pages/about-page";
+import HelpPage from "./pages/help-page";
+import NotFound from "./pages/404";
 
+class App extends Component {
+  render() {
+    return(
+        <div>
+          <Router>
+            <Switch>
+              <Route exact path="/" component={SearchPage}/>
+              <Route exact path="/help" component={HelpPage}/>
+              <Route exact path="/about" component={AboutPage}/>
+              <Route exact path="/404" component={NotFound}/>
+              <Redirect to="/404"/>
+            </Switch>
+          </Router>
+        </div>
+    );
+  }
+}
+
+/*
 class App extends Component {
   render() {
     return (
@@ -71,7 +103,6 @@ class App extends Component {
     ); 
   }
 }
-
-
+*/
 
 export default App;
