@@ -1,5 +1,5 @@
 import React, { useState, Component } from "react";
-import { Link } from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch, Link, Redirect } from "react-router-dom";
 import '../pagesCSS/search.css';
 
 const title = 'Welcome to SoftScape\'s SMS'

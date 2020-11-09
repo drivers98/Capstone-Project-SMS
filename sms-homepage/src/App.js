@@ -52,6 +52,7 @@ const SearchBar = () => {
 import SearchPage from "./pages/search";
 import AboutPage from "./pages/about-page";
 import HelpPage from "./pages/help-page";
+import UploadPage from "./pages/instructUpload"
 import NotFound from "./pages/404";
 
 class App extends Component {
@@ -63,6 +64,7 @@ class App extends Component {
               <Route exact path="/" component={SearchPage}/>
               <Route exact path="/help" component={HelpPage}/>
               <Route exact path="/about" component={AboutPage}/>
+              <Route exact path="/upload" component={UploadPage}/>
               <Route exact path="/404" component={NotFound}/>
               <Redirect to="/404"/>
             </Switch>

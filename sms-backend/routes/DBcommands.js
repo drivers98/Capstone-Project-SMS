@@ -10,8 +10,50 @@ var sms_DB = mysql.createConnection({
     database  : 'smsdatabase'
 });
 
-router.get('/upload', (req, res) => {
-    res.send('In database command router');
+router.use(bodyParser.urlencoded({extedned: true}))
+
+router.post('/uploadSyllabus', (req, res) => {
+    let CRN = req.body.CRN;
+    let SYL = req.body.SYL;
+
+    let Syllabus = "INSERT INTO syllabus (CRN, Uploaded_SYL) VALUES (?,?)"; 
+    sms_DB.query(Syllabus, [CRN, SYL], (err, result) => {
+        if(err) throw err;
+        console.log(result);
+        res.send('syllabus uploaded to sms-database');
+    });
+});
+
+router.post('/uploadInstructor', (req, res) => {
+    let instr_ID = req.body.instr_ID;
+    let instr_Name = req.body.instr_Name;
+
+    let Instructor = "INSERT INTO instructors (Instructor_ID, Instructor_Name) VALUES (?,?)";
+    sms_DB.query(Instructor, [instr_ID, instr_Name], (err, result) => {
+        if(err) throw err;
+        console.log(result);
+        res.send('instructor uploaded to sms-database');
+    });
+});
+
+router.post('/uploadCourses', (req, res) => {
+    let instr_ID = req.body.instr_ID;
+    let CRN = req.body.CRN;
+    let course_Name = req.body.course_Name;
+    let semester = req.body.semester;
+    let meeting_Time = req.body.meeting_Time;
+    let location = req.body.location;
+    let office_Hour = req.body.office_Hour;
+    let course_Description = req.body.course_Description;
+    let prereq = req.body.prereq;
+    let course_Topics = req.body.course_Topics;
+    
+    let Course = "INSERT INTO courses (CRN, Course_Name, Semester, Meeting_Time, Location, Instructor_ID, Office_Hours, Course_Description, Prerequisites, Course_Topics) VALUES ((SELECT `CRN` FROM `syllabus` WHERE `CRN` LIKE ?),?,?,?,?,(SELECT Instructor_ID FROM instructors WHERE `Instructor_ID`=?),?,?,?,?)";
+    sms_DB.query(Course, [CRN, course_Name, semester, meeting_Time, location, instr_ID, office_Hour, course_Description, prereq, course_Topics], (err, result) => {
+        if(err) throw err;
+        console.log(result);
+        res.send('courses uploaded to sms-database');
+    });
 });
 
 ///////////////////////////////////////////////////////////
