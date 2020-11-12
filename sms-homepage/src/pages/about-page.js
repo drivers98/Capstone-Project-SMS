@@ -55,7 +55,7 @@ class about extends Component {
         <footer className="App-footer">
           <b1>
            <t3><Link to="/">{bp1}</Link></t3>  
-            <t2>{bp2}</t2>
+            <t2><Link to="/termsAndCon">{bp2}</Link></t2>
            <t1><Link to="/help">{bp3}</Link></t1>
           </b1>
         </footer>
