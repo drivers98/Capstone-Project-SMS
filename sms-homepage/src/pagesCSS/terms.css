@@ -1,4 +1,4 @@
-.App {
+.Terms {
     text-align: left;
   }
   
@@ -52,7 +52,7 @@
     line-height: 1.5;
     color: #282c45;
   }
-  .App-header {
+  .Terms-header {
     background-color: #282c34;
     flex-direction: column;
     text-align: left;
@@ -62,7 +62,7 @@
     min-height: 24vh;
     width: 100%;
   }
-  .App-body {
+  .Terms-body {
     background-color: darkgrey;
     display: flex;
     flex-direction: column;
@@ -72,7 +72,7 @@
     width: 100%;
   }
   
-  .App-footer {
+  .Terms-footer {
     clear: both;
     position: relative;
     height: 200px;
