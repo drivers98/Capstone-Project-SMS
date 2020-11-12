@@ -26,15 +26,15 @@ const l5 = "have the ability to create, delete, or update a syllabus. We decided
 const l6 = "in order to fulfil our 2020 capstone project course requirement."
 
 
-class about extends Component {
+class About extends Component {
   render() {
     return (
       <div>
-      <header className="App-header">
+      <header className="About-header">
         <img src="/images/KentLogo.png" alt=""/>
         <h1>{title}</h1>
         </header>
-<body className="App-body">
+<body className="About-body">
 <tb1>{he1}</tb1>
 <tb2>{gs}</tb2>
 <wb1>{para1}</wb1>
@@ -52,7 +52,7 @@ class about extends Component {
 <wb1>{l5}</wb1>
 <wb1>{l6}</wb1>
 </body>
-        <footer className="App-footer">
+        <footer className="About-footer">
           <b1>
            <t3><Link to="/">{bp1}</Link></t3>  
             <t2><Link to="/termsAndCon">{bp2}</Link></t2>
@@ -64,4 +64,4 @@ class about extends Component {
   }
 }
 
-export default about;
+export default About;

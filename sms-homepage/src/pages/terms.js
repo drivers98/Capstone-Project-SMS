@@ -18,15 +18,9 @@ const he9 = 'Variation of Terms'
 const he10 = 'Assignment'
 const he11 = 'Entire Agreement'
 const he12 = 'Governing Law & Jurisdiction'
-const line1 = "The purpose of this website was to replace the outdated syllabus management"
-const line2 = "system (SMS) of the Kent State Computer Science Department. We were placed with"
-const line3 = "the task to allow students to view the syllabus of different Computer Science courses at"
-const line4 = "Kent State and to allow the faculty members that teach or manage those courses to"
-const line5 = "have the ability to create, delete, or update a syllabus. We decided to take the SMS task"
-const line6 = "in order to fulfil our 2020 capstone project course requirement."
 
 
-class App extends Component {
+class Terms extends Component {
   render() {
     return (
       <div>
@@ -125,7 +119,7 @@ class App extends Component {
 
         <footer className="Terms-footer">
           <b1>
-           <t3><Link to="/search">{bp1}</Link></t3>  
+           <t3><Link to="/">{bp1}</Link></t3>  
             <t2><Link to="/about">{bp2}</Link></t2>
            <t1><Link to="/help">{bp3}</Link></t1>
           </b1>
@@ -137,4 +131,4 @@ class App extends Component {
 }
 
 
-export default App;
+export default Terms;

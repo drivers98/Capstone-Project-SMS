@@ -22,15 +22,15 @@ const bo4 = "keyboard. This action will cause the website to redirect to the res
 const bo5 = "page, click the desired course syllabus to be viewed."
 
 
-class help extends Component {
+class Help extends Component {
   render() {
     return (
       <div>
-      <header className="App-header">
+      <header className="Help-header">
         <img src="/images/KentLogo.png" alt=""/>
         <h1>{title}</h1>
         </header>
-<body className="App-body">
+<body className="Help-body">
 <tb1>{he1}</tb1>
 <tb2>{gs}</tb2>
 <wb1>{para1}</wb1>
@@ -59,7 +59,7 @@ class help extends Component {
 <wb1>-------------------------------</wb1>
 <wb1>Email administrator for additional help.</wb1>
 </body>
-        <footer className="App-footer">
+        <footer className="Help-footer">
           <b1>
            <t3><Link to="/">{bp1}</Link></t3>  
             <t2><Link to="/termsAndCon">{bp2}</Link></t2>
@@ -71,4 +71,4 @@ class help extends Component {
   }
 }
 
-export default help;
+export default Help;

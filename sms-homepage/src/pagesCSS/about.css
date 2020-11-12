@@ -1,4 +1,4 @@
-.App {
+.About {
     text-align: center;
   }
   
@@ -52,7 +52,7 @@
     line-height: 1.5;
     color: #282c45;
   }
-  .App-header {
+  .About-header {
     background-color: #282c34;
     flex-direction: column;
     text-align: center;
@@ -61,7 +61,7 @@
     min-height: 24vh;
     width: 100%;
   }
-  .App-body {
+  .About-body {
     background-color: darkgrey;
     display: flex;
     flex-direction: column;
@@ -70,7 +70,7 @@
     width: 100%;
   }
   
-  .App-footer {
+  .About-footer {
     background-color: whitesmoke;
     min-height: 3vh;
   }

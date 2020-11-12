@@ -1,4 +1,4 @@
-.App {
+.Help {
     text-align: center;
   }
   
@@ -57,7 +57,7 @@
     line-height: 1.5;
     color: #282c45;
   }
-  .App-header {
+  .Help-header {
     background-color: #282c34;
     flex-direction: column;
     text-align: center;
@@ -66,7 +66,7 @@
     min-height: 24vh;
     width: 100%;
   }
-  .App-body {
+  .Help-body {
     background-color: darkgrey;
     display: flex;
     flex-direction: column;
@@ -75,7 +75,7 @@
     width: 100%;
   }
   
-  .App-footer {
+  .Help-footer {
     background-color: whitesmoke;
     min-height: 3vh;
   }

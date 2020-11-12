@@ -55,6 +55,7 @@ import HelpPage from "./pages/help-page";
 import TermsAndCon from "./pages/terms";
 import UploadPage from "./pages/instructUpload";
 import NotFound from "./pages/404";
+import Result from "./pages/searchResult";
 
 class App extends Component {
   render() {
@@ -63,6 +64,7 @@ class App extends Component {
           <Router>
             <Switch>
               <Route exact path="/" component={SearchPage}/>
+              <Route exact path="/result" component={Result}/>
               <Route exact path="/help" component={HelpPage}/>
               <Route exact path="/about" component={AboutPage}/>
               <Route exact path="/upload" component={UploadPage}/>
