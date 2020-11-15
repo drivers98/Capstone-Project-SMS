@@ -12,6 +12,14 @@ var sms_DB = mysql.createConnection({
 
 router.use(bodyParser.urlencoded({extedned: true}))
 
+router.get('/showSyllabus', (req, res) => {
+    let select = "SELECT * FROM Courses"
+    sms_DB.query(select, (err, result) => {
+        if(err) throw err;
+        res.send(result);
+    })
+});
+
 router.post('/uploadSyllabus', (req, res) => {
     let CRN = req.body.CRN;
     let SYL = req.body.SYL;

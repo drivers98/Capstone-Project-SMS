@@ -3,6 +3,7 @@
   }
 
 .column {
+    align-items: center;
     float: left;
     width: 50%;
     padding: 10px;
@@ -11,6 +12,7 @@
   
   /* Clear floats after the columns */
   .row:after {
+    align-items: center;
     content: "";
     display: table;
     clear: both;

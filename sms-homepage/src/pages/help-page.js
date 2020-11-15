@@ -1,4 +1,4 @@
-import React, { useState, Component } from "react";
+import React, { Component } from "react";
 import '../pagesCSS/help.css';
 import { Link  } from "react-router-dom";
 

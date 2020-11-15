@@ -1,4 +1,4 @@
-import React, { useState, Component } from "react";
+import React, { Component } from "react";
 import '../pagesCSS/about.css';
 import { Link } from "react-router-dom";
 
@@ -18,7 +18,6 @@ const para4 = "of the Kent State Computer Science department. "
 const bo1 = "Navigate to the homepage where there is a search bar. There are many different options"
 const bo2 = "for what the user can type in so they can view a syllabus. In the search bar enter, a course"
 
-const l1 = ""
 const l2 = ""
 const l3 = ""
 const l4 = "Kent State and to allow the faculty members that teach or manage those courses to"
