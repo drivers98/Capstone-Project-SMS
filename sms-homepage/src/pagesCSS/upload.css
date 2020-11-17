@@ -1,23 +1,87 @@
+input:focus {
+  outline: none;
+}
+
 * {
-    box-sizing: border-box;
-  }
+  box-sizing: border-box;
+}
 
 .column {
-    align-items: center;
-    float: left;
-    width: 50%;
-    padding: 10px;
-    height: 300px; /* Should be removed. Only for demonstration */
-  }
-  
-  /* Clear floats after the columns */
-  .row:after {
-    align-items: center;
-    content: "";
-    display: table;
-    clear: both;
-  }
+  align-items: center;
+  float: left;
+  width: 50%;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
+}
 
-h2{
-    color: black;
+/* Clear floats after the columns */
+.row:after {
+  align-items: center;
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.upload-main {
+  background: rgb(34, 60, 116);
+  background: radial-gradient(
+    circle,
+    rgba(34, 60, 116, 1) 0%,
+    rgba(2, 0, 41, 1) 100%
+  );
+
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0 80px 0;
+}
+
+.upload-column {
+  border-radius: 20px;
+  background-color: white;
+  width: 50%;
+  min-width: 500px;
+  box-sizing: border-box;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+.upload-column > h1,
+h4 {
+  color: rgb(23, 23, 23);
+}
+
+.upload-column > h1 {
+  font-weight: bold;
+}
+
+.upload-column > h4 {
+  font-weight: 300;
+}
+
+.upload-input {
+  border: 0px;
+  box-shadow: 0px 0px 8px #888888;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.upload-submit {
+  border: 0px;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 20px;
+  background-color: rgba(73, 130, 176, 1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+}
+
+.upload-file-select {
+  margin: 10px 0;
 }
