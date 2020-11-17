@@ -32,7 +32,7 @@ class Terms extends Component {
 <tb1>{he1}</tb1>
 
  <wb1>These Website Standard Terms and Conditions written on this webpage shall manage </wb1>
-<wb1>your use of our website, Webiste Name accessible at Website.com.</wb1>
+<wb1>your use of our website, Webiste Name accessible at Softscape.</wb1>
 <wb1>These Terms will be applied fully and affect your use of this Website. By using this </wb1>
 <wb1>Website, you agreed to accept all terms and conditions written in here. You must not </wb1>
 <wb1>use this Website if you disagree with any of these Website Standard Terms and </wb1>
