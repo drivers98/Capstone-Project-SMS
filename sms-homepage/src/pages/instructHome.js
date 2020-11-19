@@ -26,7 +26,7 @@ function Result(props) {
       <header className="Result-header">
         <img src="/images/KentLogo.png" alt="" />
         <SearchBar placeholder='Search' handle={(e) => setKeyword(e.target.value)} value={keyword}/>
-        <Link to={"/result/" + keyword}>Submit</Link>
+        <Link to={'/upload'}>Upload</Link>
       </header>
       <body className="Result-body">
         <div>

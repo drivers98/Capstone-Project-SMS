@@ -1,46 +1,33 @@
-import React, { useState, Component } from "react";
-import {BrowserRouter as Router, Route, Switch, Link, Redirect } from "react-router-dom";
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import '../pagesCSS/search.css';
+import SearchBar from '../components/searchBar'
 
 const title = 'Welcome to SoftScape\'s SMS'
-const fac = 'Not a Student?'
+const fac = 'Not a Student? '
 const bp1 = 'About'
 const bp2 = 'Terms & Conditions'
 const bp3 = 'Help'
-
-const SearchBar = () => {
-    const BarStyling = {width:"20rem",background:"#F2F1F9", border:"none", padding:"0.5rem"};
-  
-    const [keyword, setKeyword] = useState("");
-  
-    return (
-      <input 
-       style={BarStyling}
-       key="random1"
-       value={keyword}
-       placeholder={"Search"}
-       onChange={(e) => setKeyword(e.target.value)}
-      />
-    );
-  }
   
   class Search extends Component {
+    constructor(){
+      super();
+      this.state = {
+        keyword: '',
+      }
+    }
+
     render() {
       return (
         <div>
         <header className="Search-header">
           <img src="/images/KentLogo.png" alt=""/>
           <h1>{title}</h1>
-          <SearchBar />
-          <h2>{fac} <a
-            className="Search-link"
-            href="https://login.kent.edu/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-           Click Here
-          </a>
-            </h2>
+          <SearchBar placeholder="Search" handle={(e) => this.setState({keyword:e.target.value})} value={this.state.keyword}/>
+          <Link to={"/result/" + this.state.keyword}>Submit</Link>
+          <h2>{fac} 
+          <Link to="/login">Click Here</Link>
+          </h2>
           </header>
   
           <footer className="Search-footer">

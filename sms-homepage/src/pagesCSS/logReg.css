@@ -1,0 +1,45 @@
+.Login, .Register {
+    text-align: center;
+  }
+
+.card {
+    border-radius: 20px;
+    background-color: white;
+    width: 50%;
+    min-width: 500px;
+    box-sizing: border-box;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+}
+
+.Login-h1, .Register-h1 {
+    color: black;
+    font-weight: bold;
+}
+
+.Login-header, .Register-header {
+    background-color: #282c34;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+    margin: 0px;
+    min-height: 96vh;
+    width: 100%;
+  }
+
+  .Login-submit, .Register-submit {
+    border: 0px;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: rgba(73, 130, 176, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+  }

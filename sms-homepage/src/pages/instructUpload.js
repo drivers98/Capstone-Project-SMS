@@ -1,13 +1,7 @@
-import React, { useState, Component } from "react";
+import React, { useState,  } from "react";
 import "../pagesCSS/upload.css";
 import Axios from "axios";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Link,
-  Redirect,
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Upload = () => {
   //instructor table
@@ -27,10 +21,6 @@ const Upload = () => {
   const [course_Topics, setCourse_Topics] = useState("");
 
   const submitSyllabus = () => {
-    Axios.post("http://localhost:9000/DBcommands/uploadInstructor", {
-      instr_ID: instr_ID,
-      instr_Name: instr_Name,
-    });
     Axios.post("http://localhost:9000/DBcommands/uploadSyllabus", {
       CRN: CRN,
       SYL: SYL,
@@ -62,6 +52,7 @@ const Upload = () => {
           onChange={(e) => {
             setSYL(e.target.value);
           }}
+          //value={{SYL}}
         />
 
         <input
@@ -72,6 +63,7 @@ const Upload = () => {
           onChange={(e) => {
             setInstr_ID(e.target.value);
           }}
+          //value={{instr_ID}}
         />
 
         <input
