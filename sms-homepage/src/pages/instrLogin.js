@@ -23,7 +23,7 @@ loginInstructor() {
             this.setState({loginStatus: response.data.message});
         }
         else {
-            //need to redirect to /home
+            this.props.history.push('/home')
         }
     });
 }
