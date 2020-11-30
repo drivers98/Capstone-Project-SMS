@@ -1,10 +1,9 @@
 import React, { useState, useEffect, Component, } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios"
-import {Card} from "react-bootstrap"
 import '../pagesCSS/searchResult.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import SearchBar from '../components/searchBar';
+import ResultCard from '../components/resultCard';
 
 const bp1 = 'About'
 const bp2 = 'Terms & Conditions'
@@ -28,36 +27,33 @@ class Result extends Component {
       keyword: props.match.params.keyword,
       syllabusList: [],
     }
-    this.getResult = this.getResult.bind(this);
+    this.getResult = this.componentDidMount.bind(this);
   }
 
-  getResult() {
+  componentDidMount() {
     Axios.get(`http://localhost:9000/DBcommands/showSyllabus/${this.state.keyword}`).then((response) => {
       this.setState({syllabusList: response.data});
     });
   }
-
+  
+  
   render(){
   return (
     <div>
       <header className="Result-header">
         <img src="/images/KentLogo.png" alt="" />
         <SearchBar placeholder='Search' handle={(e) => this.setState({keyword: e.target.value})} value={this.state.keyword}/>
-        <Link to={"/result/" + this.state.keyword} onClick={this.getResult}>Submit</Link>
-        <button onClick={this.getResult}>what does this do?</button>
+        <Link to={"/result/" + this.state.keyword}>Submit</Link>
       </header>
       <body className="Result-body">
         <div>
           {this.state.syllabusList.map((syllabus) => {
             return (
-              <Card style={{ width: '18rem' }}>
-                <Card.Body>
-                  <Card.Title>{syllabus.Course_Name}</Card.Title>
-                  <Card.Header>{syllabus.CRN}</Card.Header>
-                  <Card.Text>{syllabus.Course_Description}</Card.Text>
-                  <button variant="primary">Edit</button>
-                </Card.Body>
-              </Card>
+              <ResultCard 
+                Course_Name={syllabus.Course_Name} 
+                CRN={syllabus.CRN} 
+                Course_Description={syllabus.Course_Description}
+              />
             )
           }
           )}

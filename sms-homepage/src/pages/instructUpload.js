@@ -1,48 +1,72 @@
-import React, { useState,  } from "react";
+import React, { useState, useEffect, Component } from "react";
 import "../pagesCSS/upload.css";
 import Axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
-const Upload = () => {
-  //instructor table
-  const [instr_ID, setInstr_ID] = useState("");
-  const [instr_Name, setInstr_Name] = useState("");
-  //syllabus table
-  const [CRN, setCRN] = useState("");
-  const [SYL, setSYL] = useState("");
-  //courses
-  const [course_Name, setCourse_Name] = useState("");
-  const [semester, setSemester] = useState("");
-  const [meeting_Time, setMeeting_Time] = useState("");
-  const [location, setLocation] = useState("");
-  const [office_Hour, setOffice_Hour] = useState("");
-  const [course_Description, setCourse_Description] = useState("");
-  const [prereq, setPrereq] = useState("");
-  const [course_Topics, setCourse_Topics] = useState("");
+class Upload extends Component {
 
-  const submitSyllabus = () => {
+  constructor() {
+    super()
+    this.state = {
+  //syllabus table requirements
+      CRN: "",
+      SYL: "",
+  //courses requirments
+      instr_ID: "",
+      course_Name: "",
+      semester: "",
+      meeting_Time: "",
+      location: "",
+      office_Hour: "",
+      course_Description: "",
+      prereq: "",
+      course_Topics: "",
+    }
+    this.submitSyllabus = this.submitSyllabus.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
+  }
+
+  submitSyllabus() {
     Axios.post("http://localhost:9000/DBcommands/uploadSyllabus", {
-      CRN: CRN,
-      SYL: SYL,
+      CRN: this.state.CRN,
+      SYL: this.state.SYL,
     });
     Axios.post("http://localhost:9000/DBcommands/uploadCourses", {
-      instr_ID: instr_ID,
-      CRN: CRN,
-      course_Name: course_Name,
-      semester: semester,
-      meeting_Time: meeting_Time,
-      location: location,
-      office_Hour: office_Hour,
-      course_Description: course_Description,
-      prereq: prereq,
-      course_Topics: course_Topics,
+      instr_ID: this.state.instr_ID,
+      CRN: this.state.CRN,
+      course_Name: this.state.course_Name,
+      semester: this.state.semester,
+      meeting_Time: this.state.meeting_Time,
+      location: this.state.location,
+      office_Hour: this.state.office_Hour,
+      course_Description: this.state.course_Description,
+      prereq: this.state.prereq,
+      course_Topics: this.state.course_Topics,
     });
   };
 
+
+  componentDidMount() {
+    Axios.defaults.withCredentials = true;
+
+    Axios.get("http://localhost:9000/DBcommands/loginInstructor",).then((response) => {
+      if (response.data.loggedIn) {
+        this.setState({instr_ID: response.data.user[0].Instructor_ID});
+      }
+      else {
+         this.props.history.push('/login')
+      }
+      //  this.setState({email: response.data.user[0].Email})
+      //  this.setState({KSU_ID: response.data.user[0].Instructor_ID})
+      console.log(response);
+    })
+  };
+
+render(){
   return (
     <div className="upload-main">
       <div className="upload-column">
-        <h1>Create a Syllabus</h1>
+        <h1>Create a Syllabus {this.state.instr_ID}</h1>
         <h4>Upload your own syllabus or enter each field manually</h4>
 
         <input
@@ -50,30 +74,9 @@ const Upload = () => {
           type="file"
           name="Syllabus"
           onChange={(e) => {
-            setSYL(e.target.value);
+            this.setState({SYL: e.target.value});
           }}
-          //value={{SYL}}
-        />
-
-        <input
-          className="upload-input"
-          placeholder="KSU ID"
-          type="text"
-          name="ID"
-          onChange={(e) => {
-            setInstr_ID(e.target.value);
-          }}
-          //value={{instr_ID}}
-        />
-
-        <input
-          className="upload-input"
-          placeholder="Name"
-          type="text"
-          name="Name"
-          onChange={(e) => {
-            setInstr_Name(e.target.value);
-          }}
+        //value={{SYL}}
         />
 
         <input
@@ -82,7 +85,7 @@ const Upload = () => {
           type="text"
           name="Course CRN"
           onChange={(e) => {
-            setCRN(e.target.value);
+            this.setState({CRN: e.target.value});
           }}
         />
 
@@ -92,7 +95,7 @@ const Upload = () => {
           type="text"
           name="Course Name"
           onChange={(e) => {
-            setCourse_Name(e.target.value);
+            this.setState({course_Name: e.target.value});
           }}
         />
 
@@ -102,7 +105,7 @@ const Upload = () => {
           type="text"
           name="Semester"
           onChange={(e) => {
-            setSemester(e.target.value);
+            this.setState({semester: e.target.value});
           }}
         />
 
@@ -112,7 +115,7 @@ const Upload = () => {
           type="text"
           name="Meeting Time"
           onChange={(e) => {
-            setMeeting_Time(e.target.value);
+            this.setState({meeting_Time: e.target.value});
           }}
         />
 
@@ -122,7 +125,7 @@ const Upload = () => {
           type="text"
           name="Location"
           onChange={(e) => {
-            setLocation(e.target.value);
+            this.setState({location: e.target.value});
           }}
         />
 
@@ -132,7 +135,7 @@ const Upload = () => {
           type="text"
           name="Office Hours"
           onChange={(e) => {
-            setOffice_Hour(e.target.value);
+            this.setState({office_Hour: e.target.value});
           }}
         />
 
@@ -142,7 +145,7 @@ const Upload = () => {
           type="text"
           name="Course Description"
           onChange={(e) => {
-            setCourse_Description(e.target.value);
+            this.setState({course_Description: e.target.value});
           }}
         />
 
@@ -152,7 +155,7 @@ const Upload = () => {
           type="text"
           name="Prerequisites"
           onChange={(e) => {
-            setPrereq(e.target.value);
+            this.setState({prereq: e.target.value});
           }}
         />
 
@@ -162,16 +165,18 @@ const Upload = () => {
           type="text"
           name="Course Topics"
           onChange={(e) => {
-            setCourse_Topics(e.target.value);
+            this.setState({course_Topics: e.target.value});
           }}
         />
 
-        <Link to="/" onClick={submitSyllabus}>
+        <Link to="" onClick={this.submitSyllabus}>
           <div className="upload-submit">Submit</div>
         </Link>
       </div>
     </div>
   );
-};
+}    }
+
+
 
 export default Upload;

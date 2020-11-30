@@ -1,52 +1,78 @@
-import React, { useState, useEffect, Component} from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, Component } from "react";
+import { Link, Redirect } from "react-router-dom";
 import Axios from "axios"
-import {Card} from "react-bootstrap"
+import { Card } from "react-bootstrap"
 import '../pagesCSS/searchResult.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SearchBar from '../components/searchBar';
+import ResultCard from '../components/resultCard'
 
 const bp1 = 'About'
 const bp2 = 'Terms & Conditions'
 const bp3 = 'Help'
 
 class Result extends Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        keyword: props.match.params.keyword,
-        syllabusList: [],
+  constructor(props) {
+    super(props);
+    this.state = {
+      keyword: props.match.params.keyword,
+      syllabusList: [],
+    }
+    this.getResult = this.getResult.bind(this);
+  }
+
+  getResult() {
+    Axios.get(`http://localhost:9000/DBcommands/showSyllabus/${this.state.keyword}`).then((response) => {
+      this.setState({ syllabusList: response.data });
+    });
+  }
+
+  mySyllabi() {
+    Axios.get("http://localhost:9000/DBcommands/loginInstructor",).then((response) => {
+      if (response.data.loggedIn) {
+        this.setState({ keyword: response.data.user[0].Instructor_Name })
+        Axios.get(`http://localhost:9000/DBcommands/showSyllabus/${this.state.keyword}`).then((response) => {
+          this.setState({ syllabusList: response.data });
+        });
       }
-      this.getResult = this.getResult.bind(this);
-    }
-  
-    getResult() {
-      Axios.get(`http://localhost:9000/DBcommands/showSyllabus/${this.state.keyword}`).then((response) => {
-        this.setState({syllabusList: response.data});
-      });
-    }
-  
-    render(){
+    });
+
+  }
+
+  componentDidMount() {
+    Axios.get("http://localhost:9000/DBcommands/loginInstructor",).then((response) => {
+      if (response.data.loggedIn) {
+        this.setState({ name: response.data.user[0].Instructor_Name })
+        this.mySyllabi();
+      }
+      else {
+        this.props.history.push('/login')
+      }
+      //  this.setState({name: response.data.user[0].Name})
+      //  this.setState({email: response.data.user[0].Email})
+      //  this.setState({KSU_ID: response.data.user[0].Instructor_ID})
+      console.log(response);
+    })
+  };
+
+  render() {
     return (
       <div>
         <header className="Result-header">
           <img src="/images/KentLogo.png" alt="" />
-          <SearchBar placeholder='Search' handle={(e) => this.setState({keyword: e.target.value})} value={this.state.keyword}/>
-          <Link to={"/result/" + this.state.keyword} onClick={this.getResult}>Submit</Link>
+          <SearchBar placeholder='Search' handle={(e) => this.setState({ keyword: e.target.value })} value={this.state.keyword} />
           <button onClick={this.getResult}>what does this do?</button>
+          <Link to='/upload'>Upload</Link>
         </header>
         <body className="Result-body">
           <div>
             {this.state.syllabusList.map((syllabus) => {
               return (
-                <Card style={{ width: '18rem' }}>
-                  <Card.Body>
-                    <Card.Title>{syllabus.Course_Name}</Card.Title>
-                    <Card.Header>{syllabus.CRN}</Card.Header>
-                    <Card.Text>{syllabus.Course_Description}</Card.Text>
-                    <button variant="primary">Edit</button>
-                  </Card.Body>
-                </Card>
+                <ResultCard
+                  Course_Name={syllabus.Course_Name}
+                  CRN={syllabus.CRN}
+                  Course_Description={syllabus.Course_Description}
+                />
               )
             }
             )}
@@ -61,7 +87,8 @@ class Result extends Component {
         </footer>
       </div>
     );
-  }}
-  
+  }
+}
+
 
 export default Result;

@@ -4,6 +4,8 @@ var mysql = require('mysql');
 var router = express.Router();
 var cors = require("cors");
 
+
+
 var sms_DB = mysql.createConnection({
     host      : 'localhost',
     user      : 'root',
@@ -11,27 +13,64 @@ var sms_DB = mysql.createConnection({
     database  : 'smsdatabase'
 });
 
-router.use(cors())
-router.use(bodyParser.urlencoded({extedned: true}))
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+
+var bcrypt = require('bcrypt');
+var saltRounds = 10;
+
+
+router.use(cookieParser());
+router.use(bodyParser.urlencoded({extedned: true}));
+
+router.use(session({
+    key: "userID",
+    secret: "thisSessionIsSecret",
+    resave: false,
+    saveUninitialized: false,
+    cookie:{
+        expires: 100 * 60 * 30
+    },
+}));
 
 ///////////////////////////////////////////////////////////////
 //Instructor login and registration
+
+//Check for session
+router.get('/loginInstructor', (req, res) => {
+    if (req.session.user) {
+        res.send({loggedIn: true, user: req.session.user});
+    }
+    else{
+        res.send({loggedIn: false});
+    }
+});
 
 //Check for login
 router.post('/loginInstructor', (req, res) => {
     let email = req.body.email;
     let password = req.body.password
 
-    let login = "SELECT * FROM instructors WHERE Email = ? AND Password = ?";
-    let query = sms_DB.query(login, [email, password], (err, result) => {
+    let login = "SELECT * FROM instructors WHERE Email = ?";
+    let query = sms_DB.query(login, [email], (err, result) => {
         if(err){ 
             res.send({err: err});
         }
         if (result.length > 0) {
-            res.send(result);
+            bcrypt.compare(password, result[0].Password, (err, response) => {
+                if(err) console.log(err);
+                if(response) {
+                   req.session.user = result;
+                   console.log(req.session.user);
+                    res.send(result);
+                }
+                else{
+                    res.send({ message: "invalid password" });
+                }
+            })
         }
         else {
-            res.send({ message: "invalid email or password" });
+            res.send({ message: "invalid email" });
         }
     });
 });
@@ -43,12 +82,20 @@ router.post('/registerInstructor', (req, res) => {
     let email = req.body.email;
     let password = req.body.password
 
-    let Instructor = "INSERT INTO instructors (Instructor_ID, Instructor_Name, Email, Password) VALUES (?,?,?,?)";
-    let query = sms_DB.query(Instructor, [instr_ID, instr_Name, email, password], (err, result) => {
-        if(err) throw err;
-        console.log(result);
-        res.send('instructor uploaded to sms-database');
-    });
+    bcrypt.hash(password, saltRounds, (err, hash) => {
+
+        if(err) {
+            console.log(err);
+        }
+
+        let Instructor = "INSERT INTO instructors (Instructor_ID, Instructor_Name, Email, Password) VALUES (?,?,?,?)";
+        let query = sms_DB.query(Instructor, [instr_ID, instr_Name, email, hash], (err, result) => {
+            if(err) throw err;
+            console.log(result);
+        });
+    })
+
+    
 });
 
 ///////////////////////////////////////////////////////////////
@@ -77,48 +124,48 @@ router.post('/uploadSyllabus', (req, res) => {
 });
 
 router.post('/uploadCourses', (req, res) => {
-    // let instr_ID = req.body.instr_ID;
-    // let CRN = req.body.CRN;
-    // let course_Name = req.body.course_Name;
-    // let semester = req.body.semester;
-    // let meeting_Time = req.body.meeting_Time;
-    // let location = req.body.location;
-    // let office_Hour = req.body.office_Hour;
-    // let course_Description = req.body.course_Description;
-    // let prereq = req.body.prereq;
-    // let course_Topics = req.body.course_Topics;
-    let { CRN, course_Name, semester, meeting_Time, location, instr_ID, office_Hour, course_Description, prereq, course_Topics} = req.body;
-    let errors = [];
+    let instr_ID = req.body.instr_ID;
+    let CRN = req.body.CRN;
+    let course_Name = req.body.course_Name;
+    let semester = req.body.semester;
+    let meeting_Time = req.body.meeting_Time;
+    let location = req.body.location;
+    let office_Hour = req.body.office_Hour;
+    let course_Description = req.body.course_Description;
+    let prereq = req.body.prereq;
+    let course_Topics = req.body.course_Topics;
+    // let { CRN, course_Name, semester, meeting_Time, location, instr_ID, office_Hour, course_Description, prereq, course_Topics} = req.body;
+    // let errors = [];
 
-    if(!CRN){errors.push("Please Enter CRN")}
-    if(!course_Name){errors.push("Please Enter the CRN")}
-    if(!semester){errors.push("Please Enter the Semester")}
-    if(!instr_ID){errors.push("Please Enter Your KSU ID")}
-    if(!course_Description){errors.push("Please Enter a Description")}
-    if(!prereq){errors.push("Please Enter Prequesites(if None Please enter None)")}
+    // if(!CRN){errors.push("Please Enter CRN")}
+    // if(!course_Name){errors.push("Please Enter the CRN")}
+    // if(!semester){errors.push("Please Enter the Semester")}
+    // if(!instr_ID){errors.push("Please Enter Your KSU ID")}
+    // if(!course_Description){errors.push("Please Enter a Description")}
+    // if(!prereq){errors.push("Please Enter Prequesites(if None Please enter None)")}
 
-    if(errors.length > 0) {
-        res.render('upload', { 
-            CRN, 
-            course_Name, 
-            semester, 
-            meeting_Time, 
-            location, 
-            instr_ID, 
-            office_Hour, 
-            course_Description, 
-            prereq, 
-            course_Topics
-        });
-    }
-    else {
+    // if(errors.length > 0) {
+    //     res.render('upload', { 
+    //         CRN, 
+    //         course_Name, 
+    //         semester, 
+    //         meeting_Time, 
+    //         location, 
+    //         instr_ID, 
+    //         office_Hour, 
+    //         course_Description, 
+    //         prereq, 
+    //         course_Topics
+    //     });
+    // }
+    // else {
         let Course = "INSERT INTO courses (CRN, Course_Name, Semester, Meeting_Time, Location, Instructor_ID, Office_Hours, Course_Description, Prerequisites, Course_Topics) VALUES ((SELECT `CRN` FROM `syllabus` WHERE `CRN` LIKE ?),?,?,?,?,(SELECT Instructor_ID FROM instructors WHERE `Instructor_ID`=?),?,?,?,?)";
         let query = sms_DB.query(Course, [CRN, course_Name, semester, meeting_Time, location, instr_ID, office_Hour, course_Description, prereq, course_Topics], (err, result) => {
             if (err) throw err;
             console.log(result);
             res.send('courses uploaded to sms-database');
         });
-    }
+    // }
 });
 
 ///////////////////////////////////////////////////////////

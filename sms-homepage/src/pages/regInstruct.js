@@ -17,7 +17,7 @@ class Register extends Component {
     }
 
     submitInstructor() {
-        Axios.post("http://localhost:9000/DBcommands/uploadInstructor", {
+        Axios.post("http://localhost:9000/DBcommands/registerInstructor", {
             instr_ID: this.state.ksu_id,
             instr_Name: this.state.name,
             email: this.state.email,
