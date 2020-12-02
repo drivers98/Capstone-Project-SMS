@@ -10,7 +10,8 @@ class Upload extends Component {
     this.state = {
   //syllabus table requirements
       CRN: "",
-      SYL: "",
+      SYLfile: [],
+      filename: "Choose File",
   //courses requirments
       instr_ID: "",
       course_Name: "",
@@ -24,12 +25,16 @@ class Upload extends Component {
     }
     this.submitSyllabus = this.submitSyllabus.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
+    this.onChange = this.onChange.bind(this)
   }
 
   submitSyllabus() {
+
+    
     Axios.post("http://localhost:9000/DBcommands/uploadSyllabus", {
       CRN: this.state.CRN,
-      SYL: this.state.SYL,
+      SYL: this.state.SYLfile,
+      filename: this.state.filename,
     });
     Axios.post("http://localhost:9000/DBcommands/uploadCourses", {
       instr_ID: this.state.instr_ID,
@@ -56,28 +61,30 @@ class Upload extends Component {
       else {
          this.props.history.push('/login')
       }
-      //  this.setState({email: response.data.user[0].Email})
-      //  this.setState({KSU_ID: response.data.user[0].Instructor_ID})
       console.log(response);
     })
+  };
+
+  onChange = e => {
+    console.log(e.target.files)
+    this.setState({SYLfile: e.target.files[0]});
+    this.setState({filename: e.target.files[0].name});
   };
 
 render(){
   return (
     <div className="upload-main">
-      <div className="upload-column">
-        <h1>Create a Syllabus {this.state.instr_ID}</h1>
+      <form className="upload-column">
+        <h1>Create a Syllabus</h1>
         <h4>Upload your own syllabus or enter each field manually</h4>
-
-        <input
-          className="upload-file-select"
-          type="file"
-          name="Syllabus"
-          onChange={(e) => {
-            this.setState({SYL: e.target.value});
-          }}
-        //value={{SYL}}
-        />
+        <form>
+          <div className='custom-file mb-4'>
+            <input type='file' className='custom-file-input' id='customFile' onChange={this.onChange}/>
+            <label className='custom-file-label' htmlFor='customFile'>
+              {this.filename}
+            </label>
+          </div>
+        </form>
 
         <input
           className="upload-input"
@@ -169,10 +176,10 @@ render(){
           }}
         />
 
-        <Link to="" onClick={this.submitSyllabus}>
+        <Link to="/home" onClick={this.submitSyllabus}>
           <div className="upload-submit">Submit</div>
         </Link>
-      </div>
+      </form>
     </div>
   );
 }    }
