@@ -1,7 +1,7 @@
-import React, { useState, useEffect, Component } from "react";
+import React, { Component } from "react";
 import Axios from "axios";
 import '../pagesCSS/logReg.css';
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 class Login extends Component {

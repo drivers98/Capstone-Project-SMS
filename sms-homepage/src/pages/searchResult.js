@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Component, } from "react";
+import React, { Component, } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios"
 import '../pagesCSS/searchResult.css';
@@ -34,6 +34,7 @@ class Result extends Component {
 
   getResult() {
     Axios.get(`http://localhost:9000/DBcommands/showSyllabus/${this.state.keyword}`).then((response) => {
+      console.log(response)
       this.setState({ syllabusList: response.data });
     });
   }
@@ -53,9 +54,10 @@ class Result extends Component {
           <SearchBar placeholder='Search' handle={(e) => this.setState({ keyword: e.target.value })} value={this.state.keyword} />
           <button onClick={this.getResult}>Submit</button>
         </header>
+        <hr/>
         <body className="Result-body">
-          <div>
-            <CardColumns>
+          <div className="cards">
+            <CardColumns >
               {this.state.syllabusList.map((syllabus) => {
                 return (
                   <ResultCard

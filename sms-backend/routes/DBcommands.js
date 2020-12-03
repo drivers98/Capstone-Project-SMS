@@ -36,6 +36,11 @@ router.use(session({
 ///////////////////////////////////////////////////////////////
 //Instructor login and registration
 
+
+router.get('/logoutInstructor', (req, res) => {
+    res.send({ loggedIn: false })
+})
+
 //Check for session
 router.get('/loginInstructor', (req, res) => {
     if (req.session.user) {
@@ -90,7 +95,7 @@ router.post('/registerInstructor', (req, res) => {
 
         let Instructor = "INSERT INTO instructors (Instructor_ID, Instructor_Name, Email, Password) VALUES (?,?,?,?)";
         let query = sms_DB.query(Instructor, [instr_ID, instr_Name, email, hash], (err, result) => {
-            if (err) throw err;
+            if (err)  console.log(err);
             console.log(result);
         });
     })
@@ -104,7 +109,7 @@ router.get('/viewSyllabus:keyword', (req, res) => {
     let CRN = req.params.keyword;
     let getSYL = 'SELECT Uploaded_SYL FROM `syllabus` WHERE CRN = ?'
     let query = sms_DB.query(getSYL, CRN, (err, result) => {
-        if (err) throw err;
+        if (err)  console.log(err);
         if (result) {
             console.log(result);
             res.send(result)
@@ -117,7 +122,7 @@ router.get('/showSyllabus/:keyword', (req, res) => {
     if (keyword.includes("CS")) {
         let instructorSelect = "SELECT * FROM `courses` WHERE CRN = ?"
         let query = sms_DB.query(instructorSelect, keyword, (err, result) => {
-            if (err) throw err;
+            if (err)  console.log(err);
             if (result) {
                 res.send(result)
             }
@@ -126,14 +131,14 @@ router.get('/showSyllabus/:keyword', (req, res) => {
     else {
         let instructorSelect = "SELECT * FROM `courses` WHERE Instructor_ID = (SELECT Instructor_ID FROM instructors Where Instructor_Name = ?)"
         let query = sms_DB.query(instructorSelect, keyword, (err, result) => {
-            if (err) throw err;
+            if (err)  console.log(err);
             if (result.length != 0) {
                 res.send(result)
             }
             else {
                 let courseNameSelect = "SELECT * FROM `courses` WHERE Course_Name = ?"
                 let query = sms_DB.query(courseNameSelect, keyword, (err, result) => {
-                    if (err) throw err;
+                    if (err)  console.log(err);
                     res.send(result)
                 })
 
@@ -145,31 +150,25 @@ router.get('/showSyllabus/:keyword', (req, res) => {
 ///////////////////////////////////////
 
 router.delete('/deleteSyllabus:CRN', (req, res) => {
-    let CRN = req.body.CRN;
-    let deleteCourse = "DELETE FROM courses WHERE CRN = '?'"
+    let CRN = req.params.CRN;
+    let deleteCourse = "DELETE FROM courses WHERE CRN = ?"
     let query = sms_DB.query(deleteCourse, CRN, (err, result) => {
-        if (err) throw err;
+        if (err)  console.log(err);
     })
-    // let deleteSyllabus = "DELETE FROM `syllabus` WHERE `syllabus`.`CRN` = ?" 
-    // let query2 = sms_DB.query(deleteSyllabus, CRN, (err, result) => {
-    //     if(err) throw err;
-    // })
+    let deleteSyllabus = "DELETE FROM `syllabus` WHERE `syllabus`.`CRN` = ?" 
+    let query2 = sms_DB.query(deleteSyllabus, CRN, (err, result) => {
+        if(err)  console.log(err);
+    })
 })
 
 router.post('/uploadSyllabus', (req, res) => {
     let CRN = req.body.CRN;
-    let SYL = req.body.filename;
 
-    if(req.files){
+   if(req.files){
         console.log(req.files)
-    }
+    } 
 
-    let Syllabus = "INSERT INTO syllabus (CRN, Uploaded_SYL) VALUES (?,?)";
-    let query = sms_DB.query(Syllabus, [CRN, SYL], (err, result) => {
-        if (err) throw err;
-        console.log(result);
-        res.send('syllabus uploaded to sms-database');
-    });
+    
 });
 
 router.post('/uploadCourses', (req, res) => {
@@ -183,38 +182,41 @@ router.post('/uploadCourses', (req, res) => {
     let course_Description = req.body.course_Description;
     let prereq = req.body.prereq;
     let course_Topics = req.body.course_Topics;
-    // let { CRN, course_Name, semester, meeting_Time, location, instr_ID, office_Hour, course_Description, prereq, course_Topics} = req.body;
-    // let errors = [];
+    let SYL = req.body.filename;
 
-    // if(!CRN){errors.push("Please Enter CRN")}
+    let errors = [];
+
+    if(!CRN){errors.push("Please Enter CRN")}
     // if(!course_Name){errors.push("Please Enter the CRN")}
     // if(!semester){errors.push("Please Enter the Semester")}
     // if(!instr_ID){errors.push("Please Enter Your KSU ID")}
     // if(!course_Description){errors.push("Please Enter a Description")}
     // if(!prereq){errors.push("Please Enter Prequesites(if None Please enter None)")}
 
-    // if(errors.length > 0) {
-    //     res.render('upload', { 
-    //         CRN, 
-    //         course_Name, 
-    //         semester, 
-    //         meeting_Time, 
-    //         location, 
-    //         instr_ID, 
-    //         office_Hour, 
-    //         course_Description, 
-    //         prereq, 
-    //         course_Topics
-    //     });
+    if (!CRN.includes("CS ") || CRN.length !== 8) {
+        error.push("Invaild CRN. Ex: 'CS 000000'");
+    }
+    // if ((semester.length > 11 && semester.length < 8)) {
+    //     error.push("Invalid Semester EX: Spring 2020")
     // }
-    // else {
-    let Course = "INSERT INTO courses (CRN, Course_Name, Semester, Meeting_Time, Location, Instructor_ID, Office_Hours, Course_Description, Prerequisites, Course_Topics) VALUES ((SELECT `CRN` FROM `syllabus` WHERE `CRN` LIKE ?),?,?,?,?,(SELECT Instructor_ID FROM instructors WHERE `Instructor_ID`=?),?,?,?,?)";
-    let query = sms_DB.query(Course, [CRN, course_Name, semester, meeting_Time, location, instr_ID, office_Hour, course_Description, prereq, course_Topics], (err, result) => {
-        if (err) throw err;
-        console.log(result);
-        res.send('courses uploaded to sms-database');
-    });
-    // }
+
+    console.log(errors.length)
+
+    if (errors.length > 0) {
+        res.send(errors)
+    }
+    else {
+        let Course = "INSERT INTO courses (CRN, Course_Name, Semester, Meeting_Time, Location, Instructor_ID, Office_Hours, Course_Description, Prerequisites, Course_Topics) VALUES ((SELECT `CRN` FROM `syllabus` WHERE `CRN` LIKE ?),?,?,?,?,(SELECT Instructor_ID FROM instructors WHERE `Instructor_ID`=?),?,?,?,?)";
+        let query = sms_DB.query(Course, [CRN, course_Name, semester, meeting_Time, location, instr_ID, office_Hour, course_Description, prereq, course_Topics], (err, result) => {
+            if (err)  console.log(err);
+            console.log(result)
+        });
+        let Syllabus = "INSERT INTO syllabus (CRN, Uploaded_SYL) VALUES (?,?)";
+        let query2 = sms_DB.query(Syllabus, [CRN, SYL], (err, result) => {
+            if (err)  console.log(err);
+        });
+    
+    }
 });
 
 ///////////////////////////////////////////////////////////
@@ -223,7 +225,7 @@ router.post('/uploadCourses', (req, res) => {
 router.get('/createdb', (req, res) => {
     let sql = 'CREATE DATABASE smsdatabase';
     sms_DB.query(sql, (err, result) => {
-        if (err) throw err;
+        if (err)  console.log(err);
         console.log(result);
         res.send('Database created...');
     });
@@ -233,7 +235,7 @@ router.get('/createdb', (req, res) => {
 router.get('/createsyllabus', (req, res) => {
     let sql = "CREATE TABLE `smsdatabase`.`syllabus` (`CRN` VARCHAR(8) NOT NULL, `Uploaded_SYL` VARCHAR(225) NULL, PRIMARY KEY (`CRN`));";
     sms_DB.query(sql, (err, result) => {
-        if (err) throw err;
+        if (err)  console.log(err);
         console.log(result);
         res.send('syllabus table created...');
     });
@@ -243,7 +245,7 @@ router.get('/createsyllabus', (req, res) => {
 router.get('/createinstructors', (req, res) => {
     let sql = "CREATE TABLE `smsdatabase`.`instructors` (`Instructor_ID` DECIMAL(9) NOT NULL, `Instructor_Name` VARCHAR(225) NOT NULL, `Email` VARCHAR(225) NOT NULL, `Password` VARCHAR(225) NOT NULL, PRIMARY KEY (`Instructor_ID`));";
     sms_DB.query(sql, (err, result) => {
-        if (err) throw err;
+        if (err)  console.log(err);
         console.log(result);
         res.send('instructor table created...');
     });
@@ -253,7 +255,7 @@ router.get('/createinstructors', (req, res) => {
 router.get('/createcourse', (req, res) => {
     let sql = "CREATE TABLE `smsdatabase`.`courses` (`CRN` VARCHAR(8) NOT NULL, `Course_Name` VARCHAR(45) NOT NULL, `Semester` VARCHAR(7) NOT NULL, `Meeting_Time` VARCHAR(40) NULL, `Location` VARCHAR(45) NULL, `Instructor_ID` DECIMAL(9) NOT NULL, `Office_Hours` VARCHAR(15) NULL, `Course_Description` TEXT(1000) NOT NULL, `Prerequisites` VARCHAR(100) NOT NULL, `Course_Topics` VARCHAR(45) NULL, PRIMARY KEY (`CRN`), FOREIGN KEY (`Instructor_ID`) REFERENCES instructors(`Instructor_ID`), FOREIGN KEY (`CRN`) REFERENCES syllabus(`CRN`));";
     sms_DB.query(sql, (err, result) => {
-        if (err) throw err;
+        if (err)  console.log(err);
         console.log(result);
         res.send('courses table created...');
     });

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
 import { Navbar, Nav, Form, CardColumns, Button } from "react-bootstrap";
 import Axios from "axios"
 import '../pagesCSS/searchResult.css';
