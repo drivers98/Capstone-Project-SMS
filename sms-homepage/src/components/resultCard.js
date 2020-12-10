@@ -67,22 +67,22 @@ const ResultCard = (props) => {
                         <li>Location: {props.Location}</li>
                     </ul>
                 </Card.Header>
-                <Card.Text>
-                    <dl>
-                        <dt>Description</dt>
-                        <dd>- {props.Course_Description}</dd>
-                        <dt>Prerequisites</dt>
-                        <dd>- {props.Prerequisites}</dd>
+                    <Card.Text>
+                        <dl>
+                            <dt>Description</dt>
+                            <dd>- {props.Course_Description}</dd>
+                            <dt>Prerequisites</dt>
+                            <dd>- {props.Prerequisites}</dd>
                             <dt>Course Topics</dt>
                             <dd>- {props.Course_Topics}</dd>
                         </dl>
                     </Card.Text>
-                        <Button variant="primary" onClick={handleShow}> View </Button>
+                    <Button variant="primary" onClick={handleShow}> View </Button>
 
-                        <Modal show={show} onHide={handleClose}>
-                            <AllPagesPDFViewer  pdf={samplePDF} />
-                        </Modal>
-                        <Options instructOption={props.instructOption} CRN={props.CRN} />
+                    <Modal show={show} onHide={handleClose}>
+                        <AllPagesPDFViewer pdf={samplePDF} />
+                    </Modal>
+                    <Options instructOption={props.instructOption} CRN={props.CRN} />
                 </Card.Body>
             </Card>
         </CardColumns>

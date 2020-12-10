@@ -38,7 +38,7 @@ router.use(session({
 
 
 router.get('/logoutInstructor', (req, res) => {
-    res.send({ loggedIn: false })
+    req.session.destroy();
 })
 
 //Check for session
@@ -66,7 +66,6 @@ router.post('/loginInstructor', (req, res) => {
                 if (err) console.log(err);
                 if (response) {
                     req.session.user = result;
-                    //console.log(req.session.user);
                     res.send(result);
                 }
                 else {
@@ -207,19 +206,19 @@ router.post('/uploadCourses', (req, res) => {
     let messages = [];
 
     if(!CRN){messages.push("Please Enter CRN")}
-    if(!course_Name){messages.push("Please Enter the Course Name")}
-    if(!semester){messages.push("Please Enter the Semester")}
-    if(!course_Description){messages.push("Please Enter a Description")}
-    if(!prereq){messages.push("Please Enter Prequesites(if None Please enter None)")}
-
     if (CRN && !CRN.includes("CS ") && CRN.length !== 8) {
         messages.push("Invaild CRN. Ex: 'CS 000000'");
     }
+    if(!course_Name){messages.push("Please Enter the Course Name")}
+    if(!semester){messages.push("Please Enter the Semester")}
     if (semester && !semester.includes("Spring") && !semester.includes("Fall") && !semester.includes("Summer")) {
         messages.push("Invalid Semester EX: Spring 2020")
     }
+    if (!meeting_Time){messages.push("Please enter a Meeting Time")}
+    if(!course_Description){messages.push("Please Enter a Description")}
+    if(!prereq){messages.push("Please Enter Prequesites(if None Please enter None)")}
 
-
+    
     if(messages.length > 0){
         res.send({messages})
     }
@@ -232,10 +231,8 @@ router.post('/uploadCourses', (req, res) => {
         let query = sms_DB.query(Course, [CRN, course_Name, semester, meeting_Time, location, instr_ID, office_Hour, course_Description, prereq, course_Topics], (err, result) => {
             if (err)  console.log(err);
             console.log(result)
+            res.send({messages})
         });
-
-        res.send({messages})
-    
     }
 });
 

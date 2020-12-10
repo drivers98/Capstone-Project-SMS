@@ -62,8 +62,7 @@ class Upload extends Component {
             this.handleShow()
         }
         else {
-          console.log("would have gone home")
-            //this.props.history.push('/home')
+          this.props.history.push('/home')
         }
     });    
     // this.props.history.push('/home')

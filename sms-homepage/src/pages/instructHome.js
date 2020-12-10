@@ -5,6 +5,8 @@ import '../pagesCSS/searchResult.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SearchBar from '../components/searchBar';
 import ResultCard from '../components/resultCard'
+import { Link } from "react-router-dom";
+
 
 const bp1 = 'About'
 const bp2 = 'Terms & Conditions'
@@ -14,6 +16,7 @@ class InstructHome extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      name: "",
       keyword: "",
       name: "", syllabusList: [],
     }
@@ -27,14 +30,17 @@ class InstructHome extends Component {
     });
   }
 
-  deleteCourse(CRN) {
-    Axios.delete(`http://localhost:9000/DBcommands/deleteSyllabus${CRN}`)
+  logout(){
+    Axios.get("http://localhost:9000/DBcommands/logoutInstructor",)
+    window.location.reload(false)
   }
 
   componentDidMount() {
     Axios.get("http://localhost:9000/DBcommands/loginInstructor",).then((response) => {
       if (response.data.loggedIn) {
         this.setState({ keyword: response.data.user[0].Instructor_Name })
+        this.setState({ name: this.state.keyword })
+
         Axios.get(`http://localhost:9000/DBcommands/showSyllabus/${this.state.keyword}`).then((response) => {
           this.setState({ syllabusList: response.data });
         });
@@ -60,6 +66,7 @@ class InstructHome extends Component {
                 <Nav className="mr-auto">
                     <Nav.Link href="/upload" >Upload</Nav.Link>
                     <Nav.Link onClick={this.componentDidMount}>My Syllabi</Nav.Link>
+                    <Nav.Link onClick={this.logout}>Logout</Nav.Link>
                 </Nav>
                 <Form inline>
                     <SearchBar placeholder='Search' handle={(e) => this.setState({ keyword: e.target.value })} value={this.state.keyword} />
@@ -85,6 +92,7 @@ class InstructHome extends Component {
                     Office_Hours={syllabus.Office_Hours}
                     Prerequisites={syllabus.Prerequisites}
                     Course_Topics={syllabus.Course_Topics}
+                    Inst_Name={this.state.name}
                     instructOption={true}
                   />
                 )
@@ -93,13 +101,13 @@ class InstructHome extends Component {
             </CardColumns>
           </div>
         </body>
-        {/* <footer className="Result-footer">
+        <footer className="Result-footer">
           <b1>
             <t3><Link to="/about">{bp1}</Link></t3>
             <t2><Link to="/termsAndCon">{bp2}</Link></t2>
             <t1><Link to="/help">{bp3}</Link></t1>
           </b1>
-        </footer> */}
+        </footer>
       </div>
     );
   }

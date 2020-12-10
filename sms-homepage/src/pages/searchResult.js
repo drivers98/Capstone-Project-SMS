@@ -70,6 +70,7 @@ class Result extends Component {
                     Office_Hours={syllabus.Office_Hours}
                     Prerequisites={syllabus.Prerequisites}
                     Course_Topics={syllabus.Course_Topics}
+                    // Inst_Name={}
                     instructOption={false}
                   />
                 )
