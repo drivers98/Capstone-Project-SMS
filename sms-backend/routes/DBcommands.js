@@ -70,12 +70,12 @@ router.post('/loginInstructor', (req, res) => {
                     res.send(result);
                 }
                 else {
-                    res.send({ message: "invalid password" });
+                    res.send({ message: "Invalid Password" });
                 }
             })
         }
         else {
-            res.send({ message: "invalid email" });
+            res.send({ message: "Invalid Email" });
         }
     });
 });
@@ -86,21 +86,41 @@ router.post('/registerInstructor', (req, res) => {
     let instr_Name = req.body.instr_Name;
     let email = req.body.email;
     let password = req.body.password
+    let confirmPassword = req.body.confirmPassword
+    let messages = [];
 
-    bcrypt.hash(password, saltRounds, (err, hash) => {
+    if(!instr_Name){ messages.push("Please Enter Your Name")};
+    if(!instr_ID){ messages.push("Please Enter Your Instructor ID")};
+    if(instr_ID.length != 8 && instr_ID.length > 0){messages.push("Make sure that ID is exactly 8 digits")} 
+    if(!email){ messages.push("Please Enter Your Email")};
+    if(email && !email.includes("@kent.edu")){messages.push("Please enter a @kent.edu email")}
+    if(!password){ messages.push("Please Enter a Password")};
+    if(password < confirmPassword || password > confirmPassword){messages.push("Passwords do not match")}
 
-        if (err) {
+    if(messages.length > 0){
+        res.send({messages})
+    }
+    else{
+     bcrypt.hash(password, saltRounds, (err, hash) => {
+
+         if (err) {
             console.log(err);
-        }
+         }
 
-        let Instructor = "INSERT INTO instructors (Instructor_ID, Instructor_Name, Email, Password) VALUES (?,?,?,?)";
-        let query = sms_DB.query(Instructor, [instr_ID, instr_Name, email, hash], (err, result) => {
-            if (err)  console.log(err);
-            console.log(result);
-        });
-    })
-
-
+         let Instructor = "INSERT INTO instructors (Instructor_ID, Instructor_Name, Email, Password) VALUES (?,?,?,?)";
+         let query = sms_DB.query(Instructor, [instr_ID, instr_Name, email, hash], (err, result) => {
+             if (err) {
+                 console.log(err);
+                 if (err.errno == 1062) {
+                     messages.push("This user already exists")
+                     res.send({ messages })
+                 }
+             }
+             res.send({ messages })
+             console.log(result);
+         });
+    })   
+    }
 });
 
 ///////////////////////////////////////////////////////////////
@@ -182,39 +202,39 @@ router.post('/uploadCourses', (req, res) => {
     let course_Description = req.body.course_Description;
     let prereq = req.body.prereq;
     let course_Topics = req.body.course_Topics;
-    let SYL = req.body.filename;
+    let SYL = req.body.SYL;
 
-    let errors = [];
+    let messages = [];
 
-    if(!CRN){errors.push("Please Enter CRN")}
-    // if(!course_Name){errors.push("Please Enter the CRN")}
-    // if(!semester){errors.push("Please Enter the Semester")}
-    // if(!instr_ID){errors.push("Please Enter Your KSU ID")}
-    // if(!course_Description){errors.push("Please Enter a Description")}
-    // if(!prereq){errors.push("Please Enter Prequesites(if None Please enter None)")}
+    if(!CRN){messages.push("Please Enter CRN")}
+    if(!course_Name){messages.push("Please Enter the Course Name")}
+    if(!semester){messages.push("Please Enter the Semester")}
+    if(!course_Description){messages.push("Please Enter a Description")}
+    if(!prereq){messages.push("Please Enter Prequesites(if None Please enter None)")}
 
-    if (!CRN.includes("CS ") || CRN.length !== 8) {
-        error.push("Invaild CRN. Ex: 'CS 000000'");
+    if (CRN && !CRN.includes("CS ") && CRN.length !== 8) {
+        messages.push("Invaild CRN. Ex: 'CS 000000'");
     }
-    // if ((semester.length > 11 && semester.length < 8)) {
-    //     error.push("Invalid Semester EX: Spring 2020")
-    // }
-
-    console.log(errors.length)
-
-    if (errors.length > 0) {
-        res.send(errors)
+    if (semester && !semester.includes("Spring") && !semester.includes("Fall") && !semester.includes("Summer")) {
+        messages.push("Invalid Semester EX: Spring 2020")
     }
-    else {
+
+
+    if(messages.length > 0){
+        res.send({messages})
+    }
+    else{
+        let Syllabus = "INSERT INTO syllabus (CRN, Uploaded_SYL) VALUES (?,?)";
+        let query2 = sms_DB.query(Syllabus, [CRN, SYL], (err, result) => {
+            if (err)  console.log(err);
+        });
         let Course = "INSERT INTO courses (CRN, Course_Name, Semester, Meeting_Time, Location, Instructor_ID, Office_Hours, Course_Description, Prerequisites, Course_Topics) VALUES ((SELECT `CRN` FROM `syllabus` WHERE `CRN` LIKE ?),?,?,?,?,(SELECT Instructor_ID FROM instructors WHERE `Instructor_ID`=?),?,?,?,?)";
         let query = sms_DB.query(Course, [CRN, course_Name, semester, meeting_Time, location, instr_ID, office_Hour, course_Description, prereq, course_Topics], (err, result) => {
             if (err)  console.log(err);
             console.log(result)
         });
-        let Syllabus = "INSERT INTO syllabus (CRN, Uploaded_SYL) VALUES (?,?)";
-        let query2 = sms_DB.query(Syllabus, [CRN, SYL], (err, result) => {
-            if (err)  console.log(err);
-        });
+
+        res.send({messages})
     
     }
 });

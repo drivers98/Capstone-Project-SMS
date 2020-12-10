@@ -10,8 +10,7 @@ class Upload extends Component {
     this.state = {
       //syllabus table requirements
       CRN: "",
-      SYLfile: [],
-      filename: "Choose File",
+      SYL: "",
       //courses requirments
       instr_ID: "",
       course_Name: "",
@@ -23,7 +22,7 @@ class Upload extends Component {
       prereq: "",
       course_Topics: "",
       //message for failed upload
-      msg: [],
+      messages: [],
       show: false,
     }
     this.submitSyllabus = this.submitSyllabus.bind(this);
@@ -38,35 +37,37 @@ class Upload extends Component {
   handleShow() { this.setState({ show: true }); }
 
   submitSyllabus() {
-      // Axios.post("http://localhost:9000/DBcommands/uploadSyllabus", {
-      //   CRN: this.state.CRN,
-      //   SYL: this.state.SYLfile,
-      // });
-      Axios.post("http://localhost:9000/DBcommands/uploadCourses", {
-        filename: this.state.filename,
-        instr_ID: this.state.instr_ID,
-        CRN: this.state.CRN,
-        course_Name: this.state.course_Name,
-        semester: this.state.semester,
-        meeting_Time: this.state.meeting_Time,
-        location: this.state.location,
-        office_Hour: this.state.office_Hour,
-        course_Description: this.state.course_Description,
-        prereq: this.state.prereq,
-        course_Topics: this.state.course_Topics,
-      })
-      .then((response) => {
-        this.setState({msg: response.data})
-        if(this.state.msg.length > 0){
-          this.props.history.push('/home')
-          console.log(response.data)
+    // Axios.post("http://localhost:9000/DBcommands/uploadSyllabus", {
+    //   CRN: this.state.CRN,
+    //   SYL: this.state.SYLfile,
+    // });
+    Axios.post("http://localhost:9000/DBcommands/uploadCourses", {
+      SYL: this.state.SYL,
+      instr_ID: this.state.instr_ID,
+      CRN: this.state.CRN,
+      course_Name: this.state.course_Name,
+      semester: this.state.semester,
+      meeting_Time: this.state.meeting_Time,
+      location: this.state.location,
+      office_Hour: this.state.office_Hour,
+      course_Description: this.state.course_Description,
+      prereq: this.state.prereq,
+      course_Topics: this.state.course_Topics,
+    }).then((response) => {
+        this.setState({ messages: response.data.messages })
+            
+        console.log(this.state.messages.length)
+
+        if (this.state.messages.length !== 0) {
+            this.handleShow()
         }
-        else{
-          this.setState({ show: true })
+        else {
+          console.log("would have gone home")
+            //this.props.history.push('/home')
         }
-      });
-      // this.props.history.push('/home')
-      // this.setState({ show: true })
+    });    
+    // this.props.history.push('/home')
+    // this.setState({ show: true })
   };
 
 
@@ -96,18 +97,20 @@ class Upload extends Component {
         <form className="upload-column">
           <h1>Create a Syllabus</h1>
           <h4>Upload your own syllabus or enter each field manually</h4>
-          <form>
-            <div className='custom-file mb-4'>
-              <input type='file' className='custom-file-input' id='customFile' onChange={this.onChange} />
-              <label className='custom-file-label' htmlFor='customFile'>
-                {this.filename}
-              </label>
-            </div>
-          </form>
+
+          <input
+          className="upload-file-select"
+          type="file"
+          name="Syllabus"
+          onChange={(e) => {
+            this.setState({ SYL: e.target.value });
+          }}
+          //value={{SYL}}
+        />
 
           <input
             className="upload-input"
-            placeholder="Course CRN"
+            placeholder="Course CRN*"
             type="text"
             name="Course CRN"
             onChange={(e) => {
@@ -117,7 +120,7 @@ class Upload extends Component {
 
           <input
             className="upload-input"
-            placeholder="Course Name"
+            placeholder="Course Name*"
             type="text"
             name="Course Name"
             onChange={(e) => {
@@ -127,7 +130,7 @@ class Upload extends Component {
 
           <input
             className="upload-input"
-            placeholder="Semester"
+            placeholder="Semester*"
             type="text"
             name="Semester"
             onChange={(e) => {
@@ -167,7 +170,7 @@ class Upload extends Component {
 
           <input
             className="upload-input"
-            placeholder="Course Description"
+            placeholder="Course Description*"
             type="text"
             name="Course Description"
             onChange={(e) => {
@@ -177,7 +180,7 @@ class Upload extends Component {
 
           <input
             className="upload-input"
-            placeholder="Prerequisites"
+            placeholder="Prerequisites*"
             type="text"
             name="Prerequisites"
             onChange={(e) => {
@@ -194,17 +197,21 @@ class Upload extends Component {
               this.setState({ course_Topics: e.target.value });
             }}
           />
+          <p>required *</p>
           <hr />
           <Button onClick={this.submitSyllabus}> Submit </Button>
           <div className="UploadMessages">
             <Modal show={this.state.show} onHide={this.handleClose}>
-
-              <h1>Upload Failed</h1>
-              {this.state.msg.map((messages) => {
-                return (
-                  <h2>{messages}</h2>
-                )
-              })}
+              <Modal.Header>
+                <Modal.Title>Upload Failed</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                {this.state.messages.map((message) => {
+                  return (
+                    <p>{message}</p>
+                  )
+                })}
+              </Modal.Body>
             </Modal>
           </div>
         </form>

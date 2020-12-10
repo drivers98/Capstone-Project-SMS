@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Axios from "axios";
+import {Button, Modal } from "react-bootstrap";
 import '../pagesCSS/logReg.css';
 import { Link } from "react-router-dom";
 
@@ -13,10 +14,16 @@ class Login extends Component {
             email: "",
             password: "",
             loginStatus: "",
+            show: false,
         }
         this.loginInstructor = this.loginInstructor.bind(this)
         this.componentDidMount = this.componentDidMount.bind(this)
+        this.handleClose = this.handleClose.bind(this)
+        this.handleShow = this.handleShow.bind(this)
     }
+
+    handleClose() { this.setState({ show: false }) }
+    handleShow() { this.setState({ show: true }); }
 
     loginInstructor() {
         Axios.post("http://localhost:9000/DBcommands/loginInstructor", {
@@ -25,6 +32,7 @@ class Login extends Component {
         }, { withCredentials: true }).then((response) => {
             if (response.data.message) {
                 this.setState({ loginStatus: response.data.message });
+                this.handleShow();
             }
             else {
                 this.props.history.push('/home')
@@ -40,8 +48,6 @@ class Login extends Component {
             if (response.data.loggedIn) {
                 this.props.history.push('/home')
             }
-            //  this.setState({email: response.data.user[0].Email})
-            //  this.setState({KSU_ID: response.data.user[0].Instructor_ID})
             console.log(response);
         })
     }
@@ -59,11 +65,18 @@ class Login extends Component {
                         <input type="Password" placeholder="Password" onChange={(e) => this.setState({ password: e.target.value })} />
                         <hr />
                         {/* <h3><Link to=''onClick={this.loginInstructor}>Login</Link></h3> */}
-                        <button onClick={this.loginInstructor}>Login</button>
+                        <Button onClick={this.loginInstructor}>Login</Button>
                         <h3><Link to='/register'>Register</Link></h3>
                     </div>
                 </header>
-                <h1 className="Login-h1">{this.state.loginStatus}</h1>
+                <Modal show={this.state.show} onHide={this.handleClose}>
+                    <Modal.Header>
+                        <Modal.Title>Login Error</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <h2 className="Login-h1">{this.state.loginStatus}</h2>
+                    </Modal.Body>
+                </Modal>
             </div>
         )
     }

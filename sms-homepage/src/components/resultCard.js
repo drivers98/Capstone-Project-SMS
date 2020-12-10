@@ -30,17 +30,27 @@ const Options = (props) => {
 
 const ResultCard = (props) => {
 
-    const [SYL, setSYL] = useState('')
+    const [SYL, setSYL] = useState(null)
+    // const [blob, setBlob] = useState([])
     const [show, setShow] = useState(false)
     const handleClose = () => setShow(false);
     //const handleShow = () => setShow(true);
 
     const handleShow = () => {
-        Axios.get(`http://localhost:9000/DBcommands/viewSyllabus${props.CRN}`).then((response) => {
-            setSYL(response);
+        Axios.get(`http://localhost:9000/DBcommands/viewSyllabus${props.CRN}`, {responseType: 'blob'}).then((response) => {
+            console.log(response.data)
+            // const file = new Blob([response.data],{type: 'application/pdf'});
+            // const fileURL = URL.createObjectURL(file);
+            setSYL(response.data);
+            // console.log(file);
+            // console.log(fileURL);
+            // window.open(fileURL)
+
         })
+        // const file = new Blob(blob, {type: 'application/pdf'});
         setShow(true);
     }
+    
 
     return (
         
