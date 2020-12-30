@@ -16,6 +16,10 @@
 .Login-h1, .Register-h1 {
     color: black;
     font-weight: bold;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
 }
 
 .Login-header, .Register-header {
